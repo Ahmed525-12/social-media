@@ -58,3 +58,18 @@ try {
   console.log(error);
 }
 }
+
+export const blockAccount= async (req,res)=>{
+
+  const user= await userModel.findById({_id:req.user._id})
+  if (user.role=="admin") {
+    const {id}=req.body
+    const blockUser= await userModel.updateOne({_id:id},{
+      blocked:true
+    })
+    res.json({message:"done block account"},blockUser)
+  } else {
+    res.json({message:"only admins"})
+
+  }
+}

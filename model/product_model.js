@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model ,Types} from "mongoose";
 const productSchema= new Schema({
     title:{type:String},
     desc:{type:String},
@@ -15,11 +15,12 @@ ref: 'Comment',
 createdBy :{
     type: Types.ObjectId, ref: 'User', required: true 
 },
-isDeleted:false,
+isDeleted:{ type: Boolean, default: false },
+
 
 }, {
     timestamps: true,
  
 })
 
-export const userModel = model('Product', userSchema)
+export const productModel = model('Product', productSchema)

@@ -1,20 +1,20 @@
-import { Schema, model } from "mongoose";
+import { Schema, model,Types } from "mongoose";
 const commentSchema= new Schema({
-    commentbody:{
+    commentBody:{
         type:String
     },
-    createdby:{
+    createdBy:{
         type: Types.ObjectId, ref: 'User', required: true 
     } ,
     productId :{
         type: Types.ObjectId, ref: 'Product', required: true 
 
     },
-    isDeleted:false,
+    isDeleted:{ type: Boolean, default: false },
     deletedBy:{  type: Types.ObjectId, ref: 'User', required: true }
 }, {
     timestamps: true,
  
 })
 
-export const userModel = model('Comment', userSchema)
+export const commentModel = model('Comment', commentSchema)

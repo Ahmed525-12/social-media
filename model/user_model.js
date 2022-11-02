@@ -10,7 +10,7 @@ const userSchema= new Schema ({
     gender: { type: String, enum: ['Male', 'Female'], default: "Male" },
     confirmEmail: { type: Boolean, default: false },
     password: { type: String, required: true },
-    isDeleted:false,
+    isDeleted:{ type: Boolean, default: false },
     online: { type: Boolean, default: false },
     blocked: { type: Boolean, default: false },
     code:{type:String,default:null},

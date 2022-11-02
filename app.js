@@ -10,9 +10,12 @@ const baseUrl = process.env.BASEURL
 app.use(express.json())
 app.use(`${baseUrl}/auth`, indexRouter.authRouter)
 app.use(`${baseUrl}/user`, indexRouter.userRouter)
+app.use(`${baseUrl}/product`, indexRouter.productRouter)
+app.use(`${baseUrl}/comment`, indexRouter.commentRouter)
 
 app.use("*", (req, res) => {
     res.json({ message: "In-valid Routing" })
 })
+
 connectDB()
 app.listen(port, () => console.log(`Server running on port .......${port}`))
