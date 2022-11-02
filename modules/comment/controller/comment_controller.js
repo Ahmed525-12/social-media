@@ -1,6 +1,7 @@
 import { commentModel } from "../../../model/comment_model.js";
 import { userModel } from "../../../model/user_model.js";
-
+import Cryptr from'cryptr';
+const cryptr = new Cryptr("process.env.encryptScretKey");
 export const addComment= async (req,res)=>{
     try {
        const { createdBy,productId } = req.params;
@@ -54,3 +55,24 @@ export const addComment= async (req,res)=>{
         comment.modifiedCount ? res.json({ message: "Done" }) :
         res.json({ message: "In-valid message or u not auth" })
   }
+
+  export const users = async (req, res) => {
+    try {
+        const user = await userModel.findById(req.user._id)
+const phone = user.phone
+const decryptedPhone = cryptr.decrypt(phone);
+        const usersList = await commentModel.find({}).populate(
+            {
+                path: 'createdBy',
+                select: `fName ${decryptedPhone}`,
+                path:"productId"
+                ,select:"title"
+            }
+        )
+        res.json({ message: "user Module", usersList })
+    } catch (error) {
+        res.json({ message: "catch error" , error })
+        
+    }
+ 
+}

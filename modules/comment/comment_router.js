@@ -4,6 +4,6 @@ const router = Router()
 router.post("/addComment",uc.addComment)
 router.put("/updateComment",uc.updateComment)
 router.patch('/softDelete',uc.softDeleteUser)
-
+router.get("/allusersWithCommentandProduct",uc.users)
 
 export default router
