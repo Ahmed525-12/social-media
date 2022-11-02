@@ -3,8 +3,8 @@ import bcrypt from 'bcryptjs'
 import jwt from'jsonwebtoken'
 import { myEmail } from "../../../services/email.js"
 import { nanoid } from 'nanoid'
-
-
+import Cryptr from'cryptr';
+const cryptr = new Cryptr("process.env.encryptScretKey");
 
 export const signup =async (req,res)=>{
 const{email,fName,password,phone,role}=req.body
@@ -15,7 +15,8 @@ try {
         res.json({massage:"email exsist", })
     } else {
         const hashPassword= await bcrypt.hash(password,parseInt(process.env.SaltRound))
-        const newUser= new userModel({email,fName,password:hashPassword,phone,role})
+        const encryptedString = cryptr.encrypt(phone);
+        const newUser= new userModel({email,fName,password:hashPassword,phone:encryptedString,role})
         const savedUser=await newUser.save()
         const token =jwt.sign({id:savedUser._id},process.env.emailToken,{expiresIn:60*60*60})
         const rfToken = jwt.sign({ id: savedUser._id }, process.env.emailToken,)
@@ -143,4 +144,14 @@ if (code==null) {
     user.modifiedCount?  res.json({massage:"done"}):  res.json({massage:"fail"})
 }
 
+}
+
+export const SignOut =async (req,res)=>{
+    const user = await userModel.findById(req.user._id)
+
+    const lastseen= await userModel.updateOne({_id:user._id},{
+        lastSeen:Date.now()
+    })
+
+    res.json({massage:"done",lastseen})
 }
