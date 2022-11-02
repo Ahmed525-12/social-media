@@ -99,7 +99,7 @@ const user =  await userModel.findOne({email})
 if (!user) {
     res.json({massage :"in valid account"})
 } else {
-   if (user.confirmEmail&&user.isDeleted==false&&user.blocked==false) {
+   if (user.confirmEmail&&user.blocked==false) {
     const match =await bcrypt.compare(password,user.password)
     if (!match) {
         res.json({massage :"failed password"})

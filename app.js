@@ -9,6 +9,7 @@ const port = 3000
 const baseUrl = process.env.BASEURL
 app.use(express.json())
 app.use(`${baseUrl}/auth`, indexRouter.authRouter)
+app.use(`${baseUrl}/user`, indexRouter.userRouter)
 
 app.use("*", (req, res) => {
     res.json({ message: "In-valid Routing" })
